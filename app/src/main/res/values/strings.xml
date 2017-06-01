@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Calculator Gerek</string>
+    <string name="math_division_symbol">\u00f7</string>
+    <string name="math_multiplication_symbol">\u00d7</string>
+    <string name="math_subtraction_symbol">\u2212</string>
+    <string name="math_equals_symbol">\u003d</string>
+    <string name="math_addition_symbol">+</string>
 </resources>
