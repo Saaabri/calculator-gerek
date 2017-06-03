@@ -14,7 +14,7 @@
         android:layout_weight="1"
         android:background="@color/colorAccent"
         android:gravity="end"
-        android:text="123*456/789"
+        android:text="0"
         android:textSize="50sp"/>
 
     <LinearLayout
@@ -35,6 +35,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="onNumberButtonClick"
                 android:text="7"
                 android:textSize="@dimen/text_size_calculator_button"/>
 
@@ -44,6 +45,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="onNumberButtonClick"
                 android:text="8"
                 android:textSize="@dimen/text_size_calculator_button"/>
 
@@ -53,6 +55,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="onNumberButtonClick"
                 android:text="9"
                 android:textSize="@dimen/text_size_calculator_button"/>
 
@@ -62,6 +65,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="onOperatorButtonClick"
                 android:text="@string/math_division_symbol"
                 android:textSize="@dimen/text_size_calculator_button"/>
         </LinearLayout>
@@ -78,6 +82,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="onNumberButtonClick"
                 android:text="4"
                 android:textSize="@dimen/text_size_calculator_button"/>
 
@@ -87,6 +92,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="onNumberButtonClick"
                 android:text="5"
                 android:textSize="@dimen/text_size_calculator_button"/>
 
@@ -96,6 +102,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="onNumberButtonClick"
                 android:text="6"
                 android:textSize="@dimen/text_size_calculator_button"/>
 
@@ -105,6 +112,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="onOperatorButtonClick"
                 android:text="@string/math_multiplication_symbol"
                 android:textSize="@dimen/text_size_calculator_button"/>
         </LinearLayout>
@@ -121,6 +129,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="onNumberButtonClick"
                 android:text="1"
                 android:textSize="@dimen/text_size_calculator_button"/>
 
@@ -130,6 +139,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="onNumberButtonClick"
                 android:text="2"
                 android:textSize="@dimen/text_size_calculator_button"/>
 
@@ -139,6 +149,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="onNumberButtonClick"
                 android:text="3"
                 android:textSize="@dimen/text_size_calculator_button"/>
 
@@ -148,6 +159,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="onOperatorButtonClick"
                 android:text="@string/math_subtraction_symbol"
                 android:textSize="@dimen/text_size_calculator_button"/>
         </LinearLayout>
@@ -164,7 +176,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="."
+                android:text=" "
                 android:textSize="@dimen/text_size_calculator_button"/>
 
             <TextView
@@ -173,16 +185,18 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="onNumberButtonClick"
                 android:text="0"
                 android:textSize="@dimen/text_size_calculator_button"/>
 
             <TextView
-                android:id="@+id/text_view_calculator_button_delete"
+                android:id="@+id/text_view_calculator_button_clear"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="DEL"
+                android:onClick="onClearButtonClick"
+                android:text="CLR"
                 android:textSize="@dimen/text_size_calculator_button"/>
 
             <TextView
@@ -191,6 +205,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="onOperatorButtonClick"
                 android:text="@string/math_addition_symbol"
                 android:textSize="@dimen/text_size_calculator_button"/>
         </LinearLayout>
@@ -207,9 +222,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="onEqualButtonClick"
                 android:text="@string/math_equals_symbol"
                 android:textSize="@dimen/text_size_calculator_button"/>
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

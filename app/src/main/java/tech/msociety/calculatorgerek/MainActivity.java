@@ -2,53 +2,92 @@ package tech.msociety.calculatorgerek;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView textViewCalculatorButton0;
-    private TextView textViewCalculatorButton1;
-    private TextView textViewCalculatorButton2;
-    private TextView textViewCalculatorButton3;
-    private TextView textViewCalculatorButton4;
-    private TextView textViewCalculatorButton5;
-    private TextView textViewCalculatorButton6;
-    private TextView textViewCalculatorButton7;
-    private TextView textViewCalculatorButton8;
-    private TextView textViewCalculatorButton9;
-    private TextView textViewCalculatorButtonDivision;
-    private TextView textViewCalculatorButtonMultiplication;
-    private TextView textViewCalculatorButtonAddition;
-    private TextView textViewCalculatorButtonSubtraction;
-    private TextView textViewCalculatorButtonEquals;
-    private TextView textViewCalculatorButtonDecimal;
-    private TextView textViewCalculatorButtonDelete;
+    private TextView textViewCalculatorDisplay;
+    private long operand1 = 0;
+    private long operand2 = 0;
+    private String operator = null;
+    private long result = 0;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     
-        initViewHandles();
-    
+        textViewCalculatorDisplay = (TextView) findViewById(R.id.text_view_calculator_display);
     }
     
-    private void initViewHandles() {
-        textViewCalculatorButton0 = (TextView) findViewById(R.id.text_view_calculator_button_0);
-        textViewCalculatorButton1 = (TextView) findViewById(R.id.text_view_calculator_button_1);
-        textViewCalculatorButton2 = (TextView) findViewById(R.id.text_view_calculator_button_2);
-        textViewCalculatorButton3 = (TextView) findViewById(R.id.text_view_calculator_button_3);
-        textViewCalculatorButton4 = (TextView) findViewById(R.id.text_view_calculator_button_4);
-        textViewCalculatorButton5 = (TextView) findViewById(R.id.text_view_calculator_button_5);
-        textViewCalculatorButton6 = (TextView) findViewById(R.id.text_view_calculator_button_6);
-        textViewCalculatorButton7 = (TextView) findViewById(R.id.text_view_calculator_button_7);
-        textViewCalculatorButton8 = (TextView) findViewById(R.id.text_view_calculator_button_8);
-        textViewCalculatorButton9 = (TextView) findViewById(R.id.text_view_calculator_button_9);
-        textViewCalculatorButtonDivision = (TextView) findViewById(R.id.text_view_calculator_button_division);
-        textViewCalculatorButtonMultiplication = (TextView) findViewById(R.id.text_view_calculator_button_multiplication);
-        textViewCalculatorButtonAddition = (TextView) findViewById(R.id.text_view_calculator_button_addition);
-        textViewCalculatorButtonSubtraction = (TextView) findViewById(R.id.text_view_calculator_button_subtraction);
-        textViewCalculatorButtonEquals = (TextView) findViewById(R.id.text_view_calculator_button_equals);
-        textViewCalculatorButtonDecimal = (TextView) findViewById(R.id.text_view_calculator_button_decimal);
-        textViewCalculatorButtonDelete = (TextView) findViewById(R.id.text_view_calculator_button_delete);
+    public void onNumberButtonClick(View view) {
+        TextView textView = (TextView) view;
+        String digitAsString = textView.getText().toString();
+        
+        if (operator == null) {
+            operand1 = Long.parseLong(String.valueOf(operand1) + digitAsString);
+        } else {
+            operand2 = Long.parseLong(String.valueOf(operand2) + digitAsString);
+        }
+        
+        flushToDisplay();
+    }
+    
+    public void onOperatorButtonClick(View view) {
+        TextView textView = (TextView) view;
+        operator = textView.getText().toString();
+        flushToDisplay();
+    }
+    
+    public void onEqualButtonClick(View view) {
+        if (operator == null) return;
+        
+        if (operator.equals(getResources().getString(R.string.math_addition_symbol))) {
+            result = operand1 + operand2;
+        }
+        
+        if (operator.equals(getResources().getString(R.string.math_subtraction_symbol))) {
+            result = operand1 - operand2;
+        }
+        
+        if (operator.equals(getResources().getString(R.string.math_multiplication_symbol))) {
+            result = operand1 * operand2;
+        }
+        
+        if (operator.equals(getResources().getString(R.string.math_division_symbol))) {
+            result = operand1 / operand2;
+        }
+        
+        flushToDisplay();
+        clear();
+    }
+    
+    public void onClearButtonClick(View view) {
+        clear();
+        flushToDisplay();
+    }
+    
+    private void clear() {
+        operand1 = 0;
+        operand2 = 0;
+        operator = null;
+        result = 0;
+    }
+    
+    private void flushToDisplay() {
+        String finalDisplay;
+        
+        if (result != 0) {
+            finalDisplay = String.valueOf(result);
+        } else {
+            finalDisplay = String.valueOf(operand1);
+            
+            if (operator != null) {
+                finalDisplay = finalDisplay + operator;
+                if (operand2 != 0) finalDisplay += String.valueOf(operand2);
+            }
+        }
+        
+        textViewCalculatorDisplay.setText(finalDisplay);
     }
 }
