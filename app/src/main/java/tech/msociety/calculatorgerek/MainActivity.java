@@ -5,12 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import tech.msociety.calculatorgerek.models.Calculator;
+
 public class MainActivity extends AppCompatActivity {
     private TextView textViewCalculatorDisplay;
-    private long operand1 = 0;
-    private long operand2 = 0;
-    private String operator = null;
-    private long result = 0;
+    private Calculator calculator;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,76 +17,87 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     
         textViewCalculatorDisplay = (TextView) findViewById(R.id.text_view_calculator_display);
+        calculator = new Calculator();
     }
     
     public void onNumberButtonClick(View view) {
         TextView textView = (TextView) view;
         String digitAsString = textView.getText().toString();
-        
-        if (operator == null) {
-            operand1 = Long.parseLong(String.valueOf(operand1) + digitAsString);
+    
+        if (!calculator.hasOperator()) {
+            calculator.setOperand1(Long.parseLong(String.valueOf(calculator.getOperand1()) + digitAsString));
         } else {
-            operand2 = Long.parseLong(String.valueOf(operand2) + digitAsString);
+            calculator.setOperand2(Long.parseLong(String.valueOf(calculator.getOperand2()) + digitAsString));
         }
-        
-        flushToDisplay();
+    
+        updateDisplay();
     }
     
     public void onOperatorButtonClick(View view) {
         TextView textView = (TextView) view;
-        operator = textView.getText().toString();
-        flushToDisplay();
-    }
-    
-    public void onEqualButtonClick(View view) {
-        if (operator == null) return;
+        String operator = textView.getText().toString();
         
         if (operator.equals(getResources().getString(R.string.math_addition_symbol))) {
-            result = operand1 + operand2;
+            calculator.setOperator(Calculator.Operator.ADD);
         }
         
         if (operator.equals(getResources().getString(R.string.math_subtraction_symbol))) {
-            result = operand1 - operand2;
+            calculator.setOperator(Calculator.Operator.SUBTRACT);
         }
         
         if (operator.equals(getResources().getString(R.string.math_multiplication_symbol))) {
-            result = operand1 * operand2;
+            calculator.setOperator(Calculator.Operator.MULTIPLY);
         }
         
         if (operator.equals(getResources().getString(R.string.math_division_symbol))) {
-            result = operand1 / operand2;
+            calculator.setOperator(Calculator.Operator.DIVIDE);
         }
+    
+        updateDisplay();
+    }
+    
+    public void onEqualButtonClick(View view) {
+        if (!calculator.canCalculate()) return;
         
-        flushToDisplay();
-        clear();
+        Long result = calculator.calculate();
+        textViewCalculatorDisplay.setText(String.valueOf(result));
+        
+        calculator = new Calculator();
+        calculator.setOperand1(result);
     }
     
     public void onClearButtonClick(View view) {
-        clear();
-        flushToDisplay();
+        calculator = new Calculator();
+        updateDisplay();
     }
     
-    private void clear() {
-        operand1 = 0;
-        operand2 = 0;
-        operator = null;
-        result = 0;
-    }
-    
-    private void flushToDisplay() {
+    private void updateDisplay() {
         String finalDisplay;
         
-        if (result != 0) {
-            finalDisplay = String.valueOf(result);
-        } else {
-            finalDisplay = String.valueOf(operand1);
-            
-            if (operator != null) {
-                finalDisplay = finalDisplay + operator;
-                if (operand2 != 0) finalDisplay += String.valueOf(operand2);
-            }
-        }
+        finalDisplay = String.valueOf(calculator.getOperand1());
+        if (calculator.hasOperator()) finalDisplay += resolveOperatorSymbol(calculator.getOperator());
+        if (calculator.hasOperand2()) finalDisplay += String.valueOf(calculator.getOperand2());
         
         textViewCalculatorDisplay.setText(finalDisplay);
+    }
+    
+    private String resolveOperatorSymbol(Calculator.Operator operator) {
+        if (operator == Calculator.Operator.ADD) {
+            return getResources().getString(R.string.math_addition_symbol);
+        }
+        
+        if (operator == Calculator.Operator.SUBTRACT) {
+            return getResources().getString(R.string.math_subtraction_symbol);
+        }
+        
+        if (operator == Calculator.Operator.MULTIPLY) {
+            return getResources().getString(R.string.math_multiplication_symbol);
+        }
+        
+        if (operator == Calculator.Operator.DIVIDE) {
+            return getResources().getString(R.string.math_division_symbol);
+        }
+        
+        return null;
     }
 }
